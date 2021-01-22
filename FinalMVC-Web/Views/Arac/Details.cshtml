@@ -1,0 +1,60 @@
+﻿@using System.Activities.Statements
+@using System.Runtime.Remoting.Messaging
+@model Final.Models.Concretes.Arac
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Araç</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AitOlduguSirket)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sirket.SirketID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Marka)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Marka)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Yıl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Yıl)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Uygunluk)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Uygunluk)
+        </dd>
+        
+    </dl>
+</div>
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AracID }) |
+    @Html.ActionLink("Back to List", "ListAll")
+</p>
+

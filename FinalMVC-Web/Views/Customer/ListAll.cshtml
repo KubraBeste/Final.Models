@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Final.Models.Concretes.Kullanici>
+@{
+    ViewBag.Title = "ListAll";
+}
+
+<h2>ListAll</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.Encode("Customer Name")
+        </th>
+        <th>
+            @Html.Encode("Customer Surname")
+        </th>
+        <th>
+            @Html.Encode("Customer TC")
+        </th>
+        <th></th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerSurname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerTC)
+            </td>
+            
+            <td>
+                @Html.ActionLink("Detail", "Details", new { id = item.CustomerID }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.CustomerID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })
+            </td>
+        </tr>
+    }
+
+</table>
