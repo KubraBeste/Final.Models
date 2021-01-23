@@ -202,36 +202,6 @@ CREATE TABLE [dbo].[tbl_ManagerLogin](
 ) ON [PRIMARY]
 GO
 GO
-ALTER TABLE [dbo].[tbl_Kiralama]  WITH CHECK ADD  CONSTRAINT [FK_tbl_Kiralama_tbl_Customers1] FOREIGN KEY([KiralayanKisi])
-REFERENCES [dbo].[tbl_Customers] ([CustomerID])
-GO
-ALTER TABLE [dbo].[tbl_Kiralama] CHECK CONSTRAINT [FK_tbl_Kiralama_tbl_Customers1]
-GO
-GO
-ALTER TABLE [dbo].[tbl_Kiralama]  WITH CHECK ADD  CONSTRAINT [FK_tbl_Kiralama_tbl_Arac1] FOREIGN KEY([KiralananArac])
-REFERENCES [dbo].[tbl_Arac] ([AracID])
-GO
-ALTER TABLE [dbo].[tbl_Kiralama] CHECK CONSTRAINT [FK_tbl_Kiralama_tbl_Arac1]
-GO
-GO
-ALTER TABLE [dbo].[tbl_Teslim]  WITH CHECK ADD  CONSTRAINT [FK_tbl_Teslim_tbl_Customers1] FOREIGN KEY([TeslimEdenKisi])
-REFERENCES [dbo].[tbl_Customers] ([CustomerID])
-GO
-ALTER TABLE [dbo].[tbl_Teslim] CHECK CONSTRAINT [FK_tbl_Teslim_tbl_Customers1]
-GO
-GO
-ALTER TABLE [dbo].[tbl_Teslim]  WITH CHECK ADD  CONSTRAINT [FK_tbl_Teslim_tbl_Arac1] FOREIGN KEY([TeslimEdilenArac])
-REFERENCES [dbo].[tbl_Arac] ([AracID])
-GO
-ALTER TABLE [dbo].[tbl_Teslim] CHECK CONSTRAINT [FK_tbl_Teslim_tbl_Arac1]
-GO
-GO
-ALTER TABLE [dbo].[tbl_Arac]  WITH CHECK ADD  CONSTRAINT [FK_tbl_Arac_tbl_Sirket1] FOREIGN KEY([AitOlduguSirket])
-REFERENCES [dbo].[tbl_Sirket] ([SirketID])
-GO
-ALTER TABLE [dbo].[tbl_Arac] CHECK CONSTRAINT [FK_tbl_Arac_tbl_Sirket1]
-GO
-GO
 USE [master]
 GO
 ALTER DATABASE [RentDB] SET  READ_WRITE 

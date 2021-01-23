@@ -10,21 +10,85 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Final.DataAccess.Concretes
 {
     public class SirketRepository : IRepository<Sirket>, IDisposable
     {
 
-        private string _connectionString1;
+        private string _connectionString;
         private string _dbProviderName;
         private DbProviderFactory _dbProviderFactory;
         private int _rowsAffected, _errorCode;
         private bool _bDisposed;
 
+        public SirketRepository()
+        {
+            _connectionString = DBHelper.GetConnectionString();
+            _dbProviderName = DBHelper.GetConnectionProvider();
+            _dbProviderFactory = DbProviderFactories.GetFactory(_dbProviderName);
+        }
         public bool DeletedById(int id)
         {
-            throw new NotImplementedException();
+            _errorCode = 0;
+            _rowsAffected = 0;
+
+            try
+            {
+                var query = new StringBuilder();
+                query.Append("DELETE ");
+                query.Append("FROM [dbo].[tbl_Sirket] ");
+                query.Append("WHERE ");
+                query.Append("[SirketID] = @id ");
+                query.Append("SELECT @intErrorCode=@@ERROR; ");
+
+                var commandText = query.ToString();
+                query.Clear();
+
+                using (var dbConnection = _dbProviderFactory.CreateConnection())
+                {
+                    if (dbConnection == null)
+                        throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
+
+                    dbConnection.ConnectionString = _connectionString;
+
+                    using (var dbCommand = _dbProviderFactory.CreateCommand())
+                    {
+                        if (dbCommand == null)
+                            throw new ArgumentNullException(
+                                "dbCommand" + " The db SelectById command for entity [tbl_Sirket] can't be null. ");
+
+                        dbCommand.Connection = dbConnection;
+                        dbCommand.CommandText = commandText;
+
+                        //Input Parameters
+                        DBHelper.AddParameter(dbCommand, "@id", CsType.Int, ParameterDirection.Input, id);
+
+                        //Output Parameters
+                        DBHelper.AddParameter(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
+
+                        //Open Connection
+                        if (dbConnection.State != ConnectionState.Open)
+                            dbConnection.Open();
+                        //Execute query
+                        _rowsAffected = dbCommand.ExecuteNonQuery();
+                        _errorCode = int.Parse(dbCommand.Parameters["@intErrorCode"].Value.ToString());
+
+                        if (_errorCode != 0)
+                            throw new Exception(
+                                "Deleting Error for entity [tbl_Sirket] reported the Database ErrorCode: " +
+                                _errorCode);
+                    }
+                }
+                //Return the results of query/ies
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
+                throw new Exception("CustomersRepository::Insert:Error occured.", ex);
+            }
         }
 
         public void Dispose()
@@ -43,10 +107,10 @@ namespace Final.DataAccess.Concretes
             {
                 var query = new StringBuilder();
                 query.Append("INSERT [dbo].[tbl_Sirket] ");
-                query.Append("([SirketAdres], [AracSayisi], [SirketPuani]) ");
+                query.Append("( [SirketAdi] ,[SirketAdres], [AracSayisi], [SirketPuani]) ");
                 query.Append("VALUES ");
                 query.Append(
-                    "( @SirketAdi, @SirketinBulunduguSehir, @SirkettekiAracSayisi, @SirketPuani ) ");
+                    "( @SirketAdi, @SirketAdres, @AracSayisi, @SirketPuani ) ");
                 query.Append("SELECT @intErrorCode=@@ERROR;");
 
                 var commandText = query.ToString();
@@ -57,7 +121,7 @@ namespace Final.DataAccess.Concretes
                     if (dbConnection == null)
                         throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
 
-                    dbConnection.ConnectionString = _connectionString1;
+                    dbConnection.ConnectionString = _connectionString;
 
                     using (var dbCommand = _dbProviderFactory.CreateCommand())
                     {
@@ -68,9 +132,10 @@ namespace Final.DataAccess.Concretes
                         dbCommand.CommandText = commandText;
 
                         //Input Params
+                        DBHelper.AddParameter(dbCommand, "@SirketAdi", CsType.String, ParameterDirection.Input, entity.SirketAdi);
                         DBHelper.AddParameter(dbCommand, "@SirketAdres", CsType.String, ParameterDirection.Input, entity.SirketAdres);
-                        DBHelper.AddParameter(dbCommand, "@AracSayisi", CsType.String, ParameterDirection.Input, entity.AracSayisi);
-                        DBHelper.AddParameter(dbCommand, "@SirketPuani", CsType.Decimal, ParameterDirection.Input, entity.SirketPuanı);
+                        DBHelper.AddParameter(dbCommand, "@AracSayisi", CsType.Int, ParameterDirection.Input, entity.AracSayisi);
+                        DBHelper.AddParameter(dbCommand, "@SirketPuani", CsType.Decimal, ParameterDirection.Input, entity.SirketPuani);
                       
                         DBHelper.AddParameter(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
 
@@ -98,17 +163,18 @@ namespace Final.DataAccess.Concretes
 
         public IList<Sirket> SelectAll()
         {
+
             _errorCode = 0;
             _rowsAffected = 0;
 
-            IList<Sirket> sirket = new List<Sirket>();
+            IList<Sirket> sirkets = new List<Sirket>();
 
             try
             {
                 var query = new StringBuilder();
                 query.Append("SELECT ");
                 query.Append(
-                    "[SirketAdres], [AracSayisi], [SirketPuani] ");
+                    "[SirketID], [SirketAdi], [SirketAdres], [AracSayisi], [SirketPuani] ");
                 query.Append("FROM [dbo].[tbl_Sirket] ");
                 query.Append("SELECT @intErrorCode=@@ERROR; ");
 
@@ -120,13 +186,13 @@ namespace Final.DataAccess.Concretes
                     if (dbConnection == null)
                         throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
 
-                    dbConnection.ConnectionString = _connectionString1;
+                    dbConnection.ConnectionString = _connectionString;
 
                     using (var dbCommand = _dbProviderFactory.CreateCommand())
                     {
                         if (dbCommand == null)
                             throw new ArgumentNullException(
-                                "dbCommand" + " The db SelectById command for entity [tbl_Teslim can't be null. ");
+                                "dbCommand" + " The db SelectById command for entity [tbl_Sirket] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandText = commandText;
@@ -150,10 +216,12 @@ namespace Final.DataAccess.Concretes
                                 {
                                     var entity = new Sirket();
                                     entity.SirketID = reader.GetInt32(0);
-                                    entity.SirketAdres = reader.GetString(1);
-                                    entity.AracSayisi = reader.GetInt32(2);
-                                    entity.SirketPuanı = reader.GetDecimal(3);                             
-                                    sirket.Add(entity);
+                                    entity.SirketAdi = reader.GetString(1);
+                                    entity.SirketAdres = reader.GetString(2);
+                                    entity.AracSayisi = reader.GetInt32(3);
+                                    entity.SirketPuani = reader.GetDecimal(4);
+
+                                    sirkets.Add(entity);
                                 }
                             }
 
@@ -170,12 +238,12 @@ namespace Final.DataAccess.Concretes
                     }
                 }
                 // Return list
-                return sirket;
+                return sirkets;
             }
             catch (Exception ex)
             {
                 LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
-                throw new Exception("TransactionsRepository::SelectAll:Error occured.", ex);
+                throw new Exception("CustomersRepository::SelectAll:Error occured.", ex);
             }
         }
 
@@ -192,10 +260,10 @@ namespace Final.DataAccess.Concretes
                 var query = new StringBuilder();
                 query.Append("SELECT ");
                 query.Append(
-                    " [SirketAdres], [AracSayisi], [SirketPuani]");
+                    "[SirketID],[SirketAdi] ,[SirketAdres], [AracSayisi], [SirketPuani]");
                 query.Append("FROM [dbo].[tbl_Sirket] ");
                 query.Append("WHERE ");
-                query.Append("[ID] = @SirketID ");
+                query.Append("[SirketID] = @id ");
                 query.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = query.ToString();
@@ -206,7 +274,7 @@ namespace Final.DataAccess.Concretes
                     if (dbConnection == null)
                         throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
 
-                    dbConnection.ConnectionString = _connectionString1;
+                    dbConnection.ConnectionString = _connectionString;
 
                     using (var dbCommand = _dbProviderFactory.CreateCommand())
                     {
@@ -236,9 +304,10 @@ namespace Final.DataAccess.Concretes
                                 {
                                     var entity = new Sirket();
                                     entity.SirketID = reader.GetInt32(0);
-                                    entity.SirketAdres = reader.GetString(1);
-                                    entity.AracSayisi = reader.GetInt32(2);
-                                    entity.SirketPuanı = reader.GetDecimal(3);
+                                    entity.SirketAdi = reader.GetString(1);
+                                    entity.SirketAdres = reader.GetString(2);
+                                    entity.AracSayisi = reader.GetInt32(3);
+                                    entity.SirketPuani = reader.GetDecimal(4);
                                     sirket = entity;
                                     break;
                                 }
@@ -256,7 +325,7 @@ namespace Final.DataAccess.Concretes
                 }
 
                 //kullanici.Kir = new TranscationsRepository().SelectAll().Where(x => x.TransactorAccountNumber.Equals(customer.CustomerID) || x.ReceiverAccountNumber.Equals(customer.CustomerID)).ToList();
-                sirket.arac = new AracRepository().SelectAll().Where(x => x.AitOlduguSirket.Equals(sirket.SirketID)).ToList();
+                sirket.aracs = new AracRepository().SelectAll().Where(x => x.AitOlduguSirket.Equals(sirket.SirketID)).ToList();
                 return sirket;
             }
             catch (Exception ex)
@@ -288,7 +357,7 @@ namespace Final.DataAccess.Concretes
                     if (dbConnection == null)
                         throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
 
-                    dbConnection.ConnectionString = _connectionString1;
+                    dbConnection.ConnectionString = _connectionString;
 
                     using (var dbCommand = _dbProviderFactory.CreateCommand())
                     {
@@ -299,9 +368,10 @@ namespace Final.DataAccess.Concretes
                         dbCommand.CommandText = commandText;
 
                         //Input Params
+                        DBHelper.AddParameter(dbCommand, "@SirketAdi", CsType.String, ParameterDirection.Input, entity.SirketAdi);
                         DBHelper.AddParameter(dbCommand, "@SirketAdres", CsType.String, ParameterDirection.Input, entity.SirketAdres);
-                        DBHelper.AddParameter(dbCommand, "@AracSayisi", CsType.String, ParameterDirection.Input, entity.AracSayisi);
-                        DBHelper.AddParameter(dbCommand, "@SirketPuani", CsType.Decimal, ParameterDirection.Input, entity.SirketPuanı);
+                        DBHelper.AddParameter(dbCommand, "@AracSayisi", CsType.Int, ParameterDirection.Input, entity.AracSayisi);
+                        DBHelper.AddParameter(dbCommand, "@SirketPuani", CsType.Decimal, ParameterDirection.Input, entity.SirketPuani);
 
 
                         //Output Params
@@ -342,6 +412,20 @@ namespace Final.DataAccess.Concretes
 
                 _bDisposed = true;
             }
+        }
+
+        public IEnumerable<SelectListItem> GetAll()
+        {
+            var sirket = new Sirket();
+            IEnumerable<SelectListItem> objSelectListItems = new List<SelectListItem>();
+            objSelectListItems = (from obj in sirket.SirketAdi
+                                  select new SelectListItem()
+                                  {
+                                      Text = sirket.SirketAdi,
+                                      Value = sirket.SirketID.ToString(),
+                                      Selected =true
+                                  }).ToList();
+            return objSelectListItems;
         }
     }
 }

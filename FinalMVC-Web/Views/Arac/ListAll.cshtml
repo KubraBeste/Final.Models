@@ -1,18 +1,15 @@
 ﻿@model IEnumerable<Final.Models.Concretes.Arac>
 @{
+    Layout = null;
     ViewBag.Title = "ListAll";
 }
 
 <h2>ListAll</h2>
-
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.Encode("Ait Oldugu Sirket")
-        </th>
         <th>
             @Html.Encode("Marka")
         </th>
@@ -26,7 +23,10 @@
             @Html.Encode("Uygunluk")
         </th>
         <th>
-            @Html.Encode("Günlük Fiyat")
+            @Html.Encode("Gunluk Fiyat")
+        </th>
+        <th>
+            @Html.Encode("Ait Oldugu Sirket")
         </th>
         <th></th>
     </tr>
@@ -34,31 +34,32 @@
 
     @foreach (var item in Model)
     {
-         <tr>
-              <td>
-                   @Html.DisplayFor(modelItem => item.AitOlduguSirket)
-              </td>
-              <td>
-                    @Html.DisplayFor(modelItem => item.Marka)
-              </td>
-              <td>
-                    @Html.DisplayFor(modelItem => item.Model)
-              </td>
-              <td>
-                    @Html.DisplayFor(modelItem => item.Yıl)
-              </td>
-              <td>
-                    @Html.DisplayFor(modelItem => item.Uygunluk)
-              </td>
-              
-
-              <td>
-                     @Html.ActionLink("Detail", "Details", new { id = item.AracID }) |
-                     @Html.ActionLink("Edit", "Edit", new { id = item.AracID }) |
-                     @Html.ActionLink("Delete", "Delete", new { id = item.AracID })
-              </td>
-         </tr>
-     }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marka)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Yıl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Uygunluk)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GünlükFiyat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AitOlduguSirket)
+            </td>
+            <td>
+                @Html.ActionLink("Detail", "Details", new { id = item.AracID }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.AracID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.AracID })
+            </td>
+        </tr>
+    }
 
 </table>
 

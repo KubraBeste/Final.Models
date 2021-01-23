@@ -31,10 +31,9 @@ namespace Final.Models.Concretes
         public string CustomerPasskey { get; set; }
         public int CustomerTC { get; set; }
 
-       
-        
-        public List<Kiralama> Kiralama { get; set; }
+        public string ErrorMessage { get; set; }
+        public virtual List<Kiralama> Kiralama { get; set; }
 
-        public List<Teslim> Teslim { get; set; }
+        public virtual List<Teslim> Teslim { get; set; }
     }
 }

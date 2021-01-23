@@ -44,6 +44,7 @@
     <Compile Include="Concretes\AracBusiness.cs" />
     <Compile Include="Concretes\KiralamaBusiness.cs" />
     <Compile Include="Concretes\KullaniciBusiness.cs" />
+    <Compile Include="Concretes\ManageBusiness.cs" />
     <Compile Include="Concretes\SirketBusiness.cs" />
     <Compile Include="Concretes\TeslimBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

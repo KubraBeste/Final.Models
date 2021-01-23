@@ -83,6 +83,7 @@ namespace Final.BusinessLogic.Concretes
         }
         public bool TeslimEtmek(Teslim teslim, Arac sender, Arac reciever, Kullanici sender1, Kullanici reciever2)
         {
+            /*
             try
             {
                 bool isSuccess = false;
@@ -113,7 +114,8 @@ namespace Final.BusinessLogic.Concretes
             {
 
                 throw new Exception("BusinessLogic:TransactionBusiness::Kiralamak::Error occured.", ex);
-            }
+            }*/
+            throw new NotImplementedException();
         }
 
         private bool UpdateKiralamaInfo(Kiralama kiralama)

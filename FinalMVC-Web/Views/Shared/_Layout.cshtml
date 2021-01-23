@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
+<head class="active">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
@@ -18,14 +18,19 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("Rent a Car", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Login", "Index", "Custormers", new { ares = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Login", "Index", "Custormer", new { ares = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Customer Ekle", "Create", "Customer", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Araç Ekle", "Create", "Arac", new { ares = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Sirket Ekle", "Create", "Sirket", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Araç Kirala", "Kiralama", "Kiralama", new { ares = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Araç Teslim Et", "Index", "Teslim", new { area = "" }, new { @class = "navbar-brand" })
+
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Customers", "Index", "Customers")</li>
                 </ul>
             </div>
         </div>

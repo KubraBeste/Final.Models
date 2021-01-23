@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Final.Models.Concretes.Sirket>
+@{
+    Layout = null;
+    ViewBag.Title = "List All";
+}
+
+<h2>ListAll</h2>
+
+<p>
+@Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.Encode("Sirket Adi")
+        </th>
+        <th>
+            @Html.Encode("Sirket Adres")
+        </th>
+        <th>
+            @Html.Encode("Arac Sayisi")
+        </th>
+        <th>
+            @Html.Encode("Sirket Puan")
+        </th>
+        <th></th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SirketAdi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SirketAdres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AracSayisi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SirketPuani)
+            </td>
+
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.SirketID }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.SirketID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.SirketID })
+            </td>
+        </tr>
+    }
+
+</table>

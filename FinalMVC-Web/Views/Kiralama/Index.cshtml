@@ -1,179 +1,25 @@
-﻿@model IEnumerable<Final.Models.Concretes.Kiralama>
+﻿@model Tuple<IEnumerable<SelectListItem>>
 
-<div class="row">
-
-    <div class="col-sm-4">
-
-        @using (Html.BeginForm("Save", "rent", FormMethod.Post, new { id = "popupForm" }))
-        {
-            <div>
-                <h1>Car Rentail</h1>
-            </div>
-            <div>
-                <div class="form-group">
-                    <label class="form-label">Car no</label>
-                    <select class="form-control" id="AracID" name="carid" placeholder="CarNo" required>
-                        <option>Please Select</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Sirket</label>
-                    <select class="form-control" id="SirketID" name="carid" placeholder="SirketNo" required>
-                        <option>Please Select</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Customer ID</label>
-                    <input type="text" id="CustomerID" name="custid" class="form-control" placeholder="CustID" required>
-
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Customer Name</label>
-                    <input type="text" id="CustomerName" name="custname" class="form-control" placeholder="CustName" required>
-
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Start Date </label>
-                    <input type="date" id="sdate" name="sdate" class="form-control" placeholder="Rentail Fee" required>
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-success" />
-                </div>
-            </div>
-        }
-
-
-
-
-
-    </div>
-
-    <div class="col-sm-8">
-
-        <table class="table">
-            <tr>
-                <th>CarNo</th>
-                <th>Sirket</th>
-                <th>Customer</th>
-                <th>Start Date</th>
-                <th>Uygunluk</th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.KiralananArac</td>
-                    <td>@item.KiralayanKisi</td>
-                    <td>@item.KiralamaTarih</td>
-                    <td>@item.isSuccess</td>
-
-
-
-                </tr>
-            }
-
-        </table>
-
-
-    </div>
-</div>
-@section scripts
-            {
-
-    <script src="~/Scripts/jquery-3.4.1.js"></script>
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/jquery.validate.js"></script>
-
-
-    <script>
-                    getCar();
-                    load();
-
-                    function load() {
-                        $("#CustomerID").attr("disabled");
-                        $("#CustomerName").attr("disabled");
-                        $("#SirketID").attr("disabled");
-                        $("#sdate").attr("disabled");
-
-                    }
-                    function getCar() {
-                        $.ajax({
-
-                            type: 'GET',
-                            url: '/rent/Getcar',
-                            dataType: 'JSON',
-                            success: function (data) {
-
-                                console.log(data);
-                                for (var i = 0; i < data.length; i++) {
-                                    $("#AracID").append($("<option/>", {
-                                        text: data[i].carno
-                                    }));
-                                }
-                            }
-
-                        });
-
-                    }
-
-                    getCustomer();
-                    function getCustomer() {
-
-                        $("#CustomerID").keyup(function (e) {
-
-
-                            $.ajax({
-
-                                type: 'POST',
-                                url: '/rent/Getid?id=' + $("#CustomerID").val(),
-                                dataType: 'JSON',
-                                success: function (data) {
-                                    console.log(data)
-                                    $("#CustomerName").val(data)
-
-
-                                }
-
-                            });
-                        });
-                    }
-
-                    $("#AracID").change(function () {
-                        available();
-                    });
-
-                    function available() {
-
-                        $.ajax({
-
-                            type: 'POST',
-                            url: '/rent/Getavil?carno=' + $("#AracID").val(),
-                            dataType: 'JSON',
-                            success: function (data) {
-
-                                var aval = data;
-                                if (aval == "yes") {
-                                    $("#CustomerID").removeattr("disabled");
-                                    $("CustomerName").removeattr("disabled");
-                                    $("#Sirket").removeattr("disabled");
-                                    $("#sdate").removeattr("disabled");
-                                   
-                                }
-                                else {
-
-                                    $("#CustomerID").attr("disabled", "disabled");
-                                    $("#CustomerName").attr("disabled", "disabled");
-                                    $("#Sirket").attr("disabled", "disabled");
-                                    $("#sdate").attr("disabled", "disabled");
-                                    
-                                }
-
-
-                            }
-                        });
-                    }
-    </script>
+@{ 
+    Layout = null;
+    ViewBag.Title = "Index";
 }
+
+
+<fieldset>
+    <legend>
+        Kiralama
+    </legend>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    Sirket:
+                    @Html.DropDownList("Sirket" , new SelectList(Model.Item1 , dataValueField:"Value",dataTextField:"Text"), htmlAttributes: new { @class= "form-control"})
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+

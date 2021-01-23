@@ -11,6 +11,7 @@ namespace Final.BusinessLogic.Concretes
     public class KiralamaBusiness : IDisposable
     {
         private KullaniciBusiness _customerbusiness = new KullaniciBusiness();
+        private AracBusiness _aracbusiness = new AracBusiness();
         private bool _bDisposed;
         private readonly object _lock = new object();
         private Kiralama generalKiralama;
@@ -80,45 +81,64 @@ namespace Final.BusinessLogic.Concretes
         public KiralamaBusiness()
         {
             _customerbusiness = new KullaniciBusiness();
+            _aracbusiness = new AracBusiness();
         }
-        public bool Kiralamak(Kiralama kiralama,Arac sender,Arac reciever,Kullanici sender1 , Kullanici reciever2)
+        public bool Kiralamak(Kiralama kiralama,Arac aracid , Kullanici kullaniciid)
         {
+
             try
             {
                 bool isSuccess = false;
                 kiralama.isSuccess = false;
-                if(sender.Uygunluk == true)
+                if (aracid.Uygunluk == true)
                 {
                     lock (_lock)
-                        sender.Uygunluk = false;
+                        aracid.Uygunluk = false;
                     lock (_lock)
-                        kiralama.KiralayanKisi = sender1.CustomerID;
+                        kiralama.KiralananArac = aracid.AracID;
                     lock (_lock)
-                        kiralama.KiralananArac = sender.AracID;
+                        kiralama.KiralayanKisi = kullaniciid.CustomerID;
                     isSuccess = InsertKiralama(kiralama);
                     if(isSuccess != kiralama.isSuccess)
                     {
                         kiralama = generalKiralama;
                         kiralama.isSuccess = isSuccess;
-                        //if (UpdateKiralamaInfo(kiralama))
-                        //{
-                            
-                        //}
+                        if (UpdateKiralamaInfo(kiralama))
+                        {
+                            lock (_lock)
+                                _customerbusiness.UpdateCustomer(kullaniciid);
+                            lock (_lock)
+                                _aracbusiness.UpdateArac(aracid);
+                                
+                        }
                     }
-
                 }
                 return isSuccess;
             }
             catch (Exception ex)
             {
 
-                throw new Exception("BusinessLogic:TransactionBusiness::Kiralamak::Error occured.", ex);
+                throw new Exception("BusinessLogic:TransactionBusiness::MakeTransaction::Error occured.", ex);
             }
+
+           
         }
 
         private bool UpdateKiralamaInfo(Kiralama kiralama)
         {
-            throw new NotImplementedException();
+            try
+            {
+                bool isSuccess;
+                using (var repo = new KiralamaRepository())
+                {
+                    isSuccess = repo.Update(kiralama);
+                }
+                return isSuccess;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("BusinessLogic:TransactionBusiness::UpdateTransaction::Error occured.", ex);
+            }
         }
     }
 }

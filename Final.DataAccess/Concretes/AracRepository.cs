@@ -57,10 +57,10 @@ namespace Final.DataAccess.Concretes
             {
                 var query = new StringBuilder();
                 query.Append("INSERT [dbo].[tbl_Arac] ");
-                query.Append("( [AitOlduguSirket] ,[Marka], [Model], [Yıl], [Uygunluk] , [GünlükFiyat]) ");
+                query.Append("( [Marka], [Model], [Yıl], [Uygunluk] , [GünlükFiyat] , [AitOlduguSirket]) ");
                 query.Append("VALUES ");
                 query.Append(
-                    "( @AitOlduguSirket, @Marka, @Model, @Yıl, @Uygunluk  @GünlükFiyat ) ");
+                    "( @Marka, @Model, @Yıl, @Uygunluk , @GünlükFiyat , @AitOlduguSirket ) ");
                 query.Append("SELECT @intErrorCode=@@ERROR;");
 
                 var commandText = query.ToString();
@@ -83,13 +83,14 @@ namespace Final.DataAccess.Concretes
 
                         //Input Params
 
-                        DBHelper.AddParameter(dbCommand, "@AitOlduguSirket", CsType.Int, ParameterDirection.Input, entity.AitOlduguSirket);
+
+                        
                         DBHelper.AddParameter(dbCommand, "@Marka", CsType.String, ParameterDirection.Input, entity.Marka);
                         DBHelper.AddParameter(dbCommand, "@Model", CsType.String, ParameterDirection.Input, entity.Model);
                         DBHelper.AddParameter(dbCommand, "@Yıl", CsType.Int, ParameterDirection.Input, entity.Yıl);
                         DBHelper.AddParameter(dbCommand, "@Uygunluk", CsType.Boolean, ParameterDirection.Input, entity.Uygunluk);
                         DBHelper.AddParameter(dbCommand, "@GünlükFiyat", CsType.Decimal, ParameterDirection.Input, entity.GünlükFiyat);
-                        
+                        DBHelper.AddParameter(dbCommand, "@AitOlduguSirket", CsType.Int, ParameterDirection.Input, entity.AitOlduguSirket);
                         //Output Params
                         DBHelper.AddParameter(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
 
@@ -125,7 +126,7 @@ namespace Final.DataAccess.Concretes
                 query.Append("DELETE ");
                 query.Append("FROM [dbo].[tbl_Arac] ");
                 query.Append("WHERE ");
-                query.Append("[AracID] = @AracID ");
+                query.Append("[AracID] = @ID ");
                 query.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = query.ToString();
@@ -148,7 +149,7 @@ namespace Final.DataAccess.Concretes
                         dbCommand.CommandText = commandText;
 
                         //Input Parameters
-                        DBHelper.AddParameter(dbCommand, "@AracID", CsType.Int, ParameterDirection.Input, id);
+                        DBHelper.AddParameter(dbCommand, "@ID", CsType.Int, ParameterDirection.Input, id);
 
                         //Output Parameters
                         DBHelper.AddParameter(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
@@ -189,7 +190,7 @@ namespace Final.DataAccess.Concretes
                 var query = new StringBuilder();
                 query.Append("SELECT ");
                 query.Append(
-                    " [AitOlduguSirket] ,[Marka], [Model], [Yıl], [Uygunluk] , [GünlükFiyat]");
+                    " [AracID] ,[Marka], [Model], [Yıl], [Uygunluk] , [GünlükFiyat] , [AitOlduguSirket]");
                 query.Append("FROM [dbo].[tbl_Arac] ");
                 query.Append("SELECT @intErrorCode=@@ERROR; ");
 
@@ -231,13 +232,13 @@ namespace Final.DataAccess.Concretes
                                 {
                                     var entity = new Arac();
                                     entity.AracID = reader.GetInt32(0);
-                                    entity.AitOlduguSirket = reader.GetInt32(1);
-                                    entity.Marka = reader.GetString(2);
-                                    entity.Model = reader.GetString(3);
-                                    entity.Yıl = reader.GetInt32(4);
-                                    entity.Uygunluk = reader.GetBoolean(5);
-                                    entity.GünlükFiyat = reader.GetDecimal(6);
-                                    
+                                    entity.Marka = reader.GetString(1);
+                                    entity.Model = reader.GetString(2);
+                                    entity.Yıl = reader.GetInt32(3);
+                                    entity.Uygunluk = reader.GetBoolean(4);
+                                    entity.GünlükFiyat = reader.GetDecimal(5);
+                                    entity.AitOlduguSirket = reader.GetInt32(6);
+
                                     arac.Add(entity);
                                 }
                             }
@@ -277,10 +278,10 @@ namespace Final.DataAccess.Concretes
                 var query = new StringBuilder();
                 query.Append("SELECT ");
                 query.Append(
-                    " [AitOlduguSirket] ,[Marka], [Model], [Yıl], [Uygunluk] , [GünlükFiyat]");
+                    " [Marka], [Model], [Yıl], [Uygunluk] , [GünlükFiyat] ,[AitOlduguSirket]");
                 query.Append("FROM [dbo].[tbl_Arac] ");
                 query.Append("WHERE ");
-                query.Append("[AracID] = @AracID ");
+                query.Append("[AracID] = @AracId ");
                 query.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = query.ToString();
@@ -303,7 +304,7 @@ namespace Final.DataAccess.Concretes
                         dbCommand.CommandText = commandText;
 
                         //Input Parameters
-                        DBHelper.AddParameter(dbCommand, "@AracID", CsType.Int, ParameterDirection.Input, id);
+                        DBHelper.AddParameter(dbCommand, "@AracId", CsType.Int, ParameterDirection.Input, id);
 
                         //Output Parameters
                         DBHelper.AddParameter(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
@@ -321,12 +322,12 @@ namespace Final.DataAccess.Concretes
                                 {
                                     var entity = new Arac();
                                     entity.AracID = reader.GetInt32(0);
-                                    entity.AitOlduguSirket = reader.GetInt32(1);
-                                    entity.Marka = reader.GetString(2);
-                                    entity.Model = reader.GetString(3);
-                                    entity.Yıl = reader.GetInt32(4);
-                                    entity.Uygunluk = reader.GetBoolean(5);
-                                    entity.GünlükFiyat = reader.GetDecimal(6);
+                                    entity.Marka = reader.GetString(1);
+                                    entity.Model = reader.GetString(2);
+                                    entity.Yıl = reader.GetInt32(3);
+                                    entity.Uygunluk = reader.GetBoolean(4);
+                                    entity.GünlükFiyat = reader.GetInt32(5);
+                                    entity.AitOlduguSirket = reader.GetInt32(6);
                                     arac = entity;
                                     break;
                                 }
@@ -362,8 +363,8 @@ namespace Final.DataAccess.Concretes
             try
             {
                 var query = new StringBuilder();
-                query.Append(" UPDATE [dbo].[tblı_Arac] ");
-                query.Append(" SET [AitOlduguSirket] = @AitOlduguSirket, [Marka] = @Marka, [Model] = @Model, [Yıl] = @Yıl, [Uygunluk)] = @Uygunluk, [GünlükFiyat]= @GünlükFiyat");
+                query.Append(" UPDATE [dbo].[tbl_Arac] ");
+                query.Append(" SET [Marka] = @Marka, [Model] = @Model, [Yıl] = @Yıl, [Uygunluk] = @Uygunluk, [GünlükFiyat]= @GünlükFiyat ,[AitOlduguSirket] = @AitOlduguSirket");
                 query.Append(" WHERE ");
                 query.Append(" [AracID] = @AracID ");
                 query.Append(" SELECT @intErrorCode = @@ERROR; ");
@@ -387,12 +388,14 @@ namespace Final.DataAccess.Concretes
                         dbCommand.CommandText = commandText;
 
                         //Input Params
-                        DBHelper.AddParameter(dbCommand, "@AitOlduguSirket", CsType.String, ParameterDirection.Input, entity.AitOlduguSirket);
+                       
                         DBHelper.AddParameter(dbCommand, "@Marka", CsType.String, ParameterDirection.Input, entity.Marka);
                         DBHelper.AddParameter(dbCommand, "@Model", CsType.String, ParameterDirection.Input, entity.Model);
                         DBHelper.AddParameter(dbCommand, "@Yıl", CsType.String, ParameterDirection.Input, entity.Yıl);
-                        DBHelper.AddParameter(dbCommand, "@Uygunluk", CsType.String, ParameterDirection.Input, entity.Uygunluk);
+                        DBHelper.AddParameter(dbCommand, "@Uygunluk", CsType.Boolean, ParameterDirection.Input, entity.Uygunluk);
                         DBHelper.AddParameter(dbCommand, "@GünlükFiyat", CsType.Decimal, ParameterDirection.Input, entity.GünlükFiyat);
+                        DBHelper.AddParameter(dbCommand, "@AitOlduguSirket", CsType.Int, ParameterDirection.Input, entity.AitOlduguSirket);
+
                         //Output Params
                         DBHelper.AddParameter(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
 

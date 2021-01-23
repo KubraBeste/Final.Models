@@ -1,0 +1,80 @@
+﻿@model Final.Models.Concretes.Kullanici
+ 
+@{
+    Layout = null;
+    ViewBag.Title = "UserLogin";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width-device-width"/>
+    <title>User Login</title>
+    <style>
+        body {
+            background-image: url(../../Images/yeşil-arka-plan.png);
+            animation: alternate;
+        }
+        #userlogin-div {
+
+            background-color: lightgoldenrodyellow;
+            position: absolute;
+            text-align: center;
+            top: 20%;
+            left: 500px;
+            border: 1px solid #ff6a00;
+            padding: 100px 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="userlogin-div">
+        @using (Html.BeginForm("Autherize", "Login", FormMethod.Post))
+        {
+           <table id="userlogin-table">
+            <tr>
+                <td> </td>
+                <td style="text-decoration:underline">Rent Car</td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.CustomerName )
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.CustomerName)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(model => model.CustomerName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.CustomerPasskey)</td>
+                <td>@Html.EditorFor(model => model.CustomerPasskey)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(model => model.CustomerPasskey)</td>
+            </tr>
+            <tr>
+                   <td colspan="2">
+                       <label class="field-validation-error">@Html.DisplayFor(model => model.ErrorMessage) </label>
+                   </td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td>
+                    <input href="@Url.Action("UserWebSite" , "website")" type="submit" name="name" value="UserLogin" /> 
+                    <input type="reset" name=" name" value="clear" />
+                </td>
+            </tr>
+           </table>
+        }
+    </div>
+    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
+

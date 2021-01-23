@@ -25,5 +25,7 @@ namespace Final.Models.Concretes
         public string Password { get; set; }
 
         public bool isActive { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }

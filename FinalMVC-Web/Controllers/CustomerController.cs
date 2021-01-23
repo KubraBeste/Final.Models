@@ -42,7 +42,7 @@ namespace FinalMVC_Web.Controllers
             try
             {
                 if (InsertCustomer(collection["CustomerName"], collection["CustomerSurname"], collection["CustomerPasskey"], int.Parse(collection["CustomerTC"])))
-                    return RedirectToAction("ListAll");
+                    return RedirectToAction("Index" ,"Home");
 
                 return View();
             }

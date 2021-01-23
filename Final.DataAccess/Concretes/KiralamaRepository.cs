@@ -38,7 +38,7 @@ namespace Final.DataAccess.Concretes
                 query.Append("DELETE ");
                 query.Append("FROM [dbo].[tbl_Kiralama] ");
                 query.Append("WHERE ");
-                query.Append("[ID] = @ID ");
+                query.Append("[ID] = @id ");
                 query.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = query.ToString();
@@ -148,7 +148,7 @@ namespace Final.DataAccess.Concretes
                      
                         DBHelper.AddParameter(dbCommand, "@KiralayanKisi", CsType.Int, ParameterDirection.Input, entity.KiralayanKisi);
                         DBHelper.AddParameter(dbCommand, "@KiralananArac", CsType.Int, ParameterDirection.Input, entity.KiralananArac);
-                        DBHelper.AddParameter(dbCommand, "@KiralamaTarih", CsType.Int, ParameterDirection.Input, entity.KiralamaTarih);
+                        DBHelper.AddParameter(dbCommand, "@KiralamaTarih", CsType.DateTime, ParameterDirection.Input, entity.KiralamaTarih);
 
                         //Output Params
                         DBHelper.AddParameter(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
@@ -189,7 +189,7 @@ namespace Final.DataAccess.Concretes
                 query.Append("([KiralayanKisi], [KiralananArac], [KiralamaTarih] ) ");
                 query.Append("FROM [dbo].[tbl_Kiralama] ");
                 query.Append("WHERE ");
-                query.Append("[ID] = @ID ");
+                query.Append("[ID] = @id ");
                 query.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = query.ToString();
@@ -271,7 +271,7 @@ namespace Final.DataAccess.Concretes
                 query.Append(" UPDATE [dbo].[tbl_Kiralama] ");
                 query.Append(" SET [KiralayanKisi] = @KiralayanKisi, [KiralananArac] = @KiralananArac, [KiralamaTarih] = @KiralamaTarih");
                 query.Append(" WHERE ");
-                query.Append(" [ID] = @ID ");
+                query.Append(" [ID] = @id ");
                 query.Append(" SELECT @intErrorCode = @@ERROR; ");
 
                 var commandText = query.ToString();
@@ -293,9 +293,9 @@ namespace Final.DataAccess.Concretes
                         dbCommand.CommandText = commandText;
 
                         //Input Params
-                        DBHelper.AddParameter(dbCommand, "@KiralayanKisi", CsType.String, ParameterDirection.Input, entity.KiralayanKisi);
-                        DBHelper.AddParameter(dbCommand, "@KiralananArac", CsType.String, ParameterDirection.Input, entity.KiralananArac);
-                        DBHelper.AddParameter(dbCommand, "@KiralamaTarih", CsType.Decimal, ParameterDirection.Input, entity.KiralamaTarih);
+                        DBHelper.AddParameter(dbCommand, "@KiralayanKisi", CsType.Int, ParameterDirection.Input, entity.KiralayanKisi);
+                        DBHelper.AddParameter(dbCommand, "@KiralananArac", CsType.Int, ParameterDirection.Input, entity.KiralananArac);
+                        DBHelper.AddParameter(dbCommand, "@KiralamaTarih", CsType.DateTime, ParameterDirection.Input, entity.KiralamaTarih);
 
                         //Output Params
                         DBHelper.AddParameter(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
