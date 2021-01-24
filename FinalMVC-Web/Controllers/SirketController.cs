@@ -15,6 +15,7 @@ namespace FinalMVC_Web.Controllers
         // GET: Sirket
         public ActionResult Index()
         {
+
             return View();
         }
 

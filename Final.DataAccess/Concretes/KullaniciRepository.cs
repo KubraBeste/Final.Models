@@ -48,6 +48,7 @@ namespace Final.DataAccess.Concretes
 
         public bool Insert(Kullanici entity)
         {
+            Kullanici kullanici = new Kullanici();
             _rowsAffected = 0;
             _errorCode = 0;
 
@@ -55,10 +56,10 @@ namespace Final.DataAccess.Concretes
             {
                 var query = new StringBuilder();
                 query.Append("INSERT [dbo].[tbl_Customers] ");
-                query.Append("( [CustomerName], [CustomerSurname],  [CustomerPasskey] ,[CustomerTC] ) ");
+                query.Append("([UserName],[CustomerName], [CustomerSurname],  [CustomerPasskey] ,[CustomerTC] ) ");
                 query.Append("VALUES ");
                 query.Append(
-                    "( @CustomerName, @CustomerSurname ,  @CustomerPasskey, @CustomerTC ) ");
+                    "( @UserName,@CustomerName, @CustomerSurname ,  @CustomerPasskey, @CustomerTC ) ");
                 query.Append("SELECT @intErrorCode=@@ERROR;");
 
                 var commandText = query.ToString();
@@ -79,8 +80,11 @@ namespace Final.DataAccess.Concretes
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandText = commandText;
 
+                        
+
                         //Input Params
                         DBHelper.AddParameter(dbCommand, "@CustomerName", CsType.String, ParameterDirection.Input, entity.CustomerName);
+                        DBHelper.AddParameter(dbCommand, "@UserName", CsType.String, ParameterDirection.Input, entity.UserName);
                         DBHelper.AddParameter(dbCommand, "@CustomerSurname", CsType.String, ParameterDirection.Input, entity.CustomerSurname);
                         DBHelper.AddParameter(dbCommand, "@CustomerPasskey", CsType.String, ParameterDirection.Input, entity.CustomerPasskey);
                         DBHelper.AddParameter(dbCommand, "@CustomerTC", CsType.String, ParameterDirection.Input, entity.CustomerTC);
@@ -101,6 +105,8 @@ namespace Final.DataAccess.Concretes
                     }
                 }
                 //Return the results of query/ies
+                
+                
                 return true;
             }
             catch (Exception ex)
@@ -185,7 +191,7 @@ namespace Final.DataAccess.Concretes
                 var query = new StringBuilder();
                 query.Append("SELECT ");
                 query.Append(
-                    "[CustomerID], [CustomerName], [CustomerSurname], [CustomerPasskey]  ,[CustomerTC] ");
+                    "[CustomerID], [UserName],[CustomerName], [CustomerSurname], [CustomerPasskey]  ,[CustomerTC] ");
                 query.Append("FROM [dbo].[tbl_Customers] ");
                 query.Append("SELECT @intErrorCode=@@ERROR; ");
 
@@ -227,10 +233,11 @@ namespace Final.DataAccess.Concretes
                                 {
                                     var entity = new Kullanici();
                                     entity.CustomerID = reader.GetInt32(0);
-                                    entity.CustomerName = reader.GetString(1);
-                                    entity.CustomerSurname = reader.GetString(2);
-                                    entity.CustomerPasskey = reader.GetString(3);
-                                    entity.CustomerTC = reader.GetInt32(4);
+                                    entity.UserName = reader.GetString(1);
+                                    entity.CustomerName = reader.GetString(2);
+                                    entity.CustomerSurname = reader.GetString(3);
+                                    entity.CustomerPasskey = reader.GetString(4);
+                                    entity.CustomerTC = reader.GetInt32(5);
                                     
                                     kullanici.Add(entity);
                                 }
@@ -271,7 +278,7 @@ namespace Final.DataAccess.Concretes
                 var query = new StringBuilder();
                 query.Append("SELECT ");
                 query.Append(
-                    "[CustomerID], [CustomerName], [CustomerSurname], [CustomerPasskey]  ,[CustomerTC] ");
+                    "[CustomerID], [UserName],[CustomerName], [CustomerSurname], [CustomerPasskey]  ,[CustomerTC] ");
                 query.Append("FROM [dbo].[tbl_Customers] ");
                 query.Append("WHERE ");
                 query.Append("[CustomerID] = @id ");
@@ -315,10 +322,11 @@ namespace Final.DataAccess.Concretes
                                 {
                                     var entity = new Kullanici();
                                     entity.CustomerID = reader.GetInt32(0);
-                                    entity.CustomerName = reader.GetString(1);
-                                    entity.CustomerSurname = reader.GetString(2);
-                                    entity.CustomerPasskey = reader.GetString(3);
-                                    entity.CustomerTC = reader.GetInt32(4);
+                                    entity.UserName = reader.GetString(1);
+                                    entity.CustomerName = reader.GetString(2);
+                                    entity.CustomerSurname = reader.GetString(3);
+                                    entity.CustomerPasskey = reader.GetString(4);
+                                    entity.CustomerTC = reader.GetInt32(5);
                                     kullanici = entity;
                                     break;
                                 }
@@ -356,7 +364,7 @@ namespace Final.DataAccess.Concretes
             {
                 var query = new StringBuilder();
                 query.Append(" UPDATE [dbo].[tbl_Customers] ");
-                query.Append(" SET [CustomerName] = @CustomerName, [CustomerSurname] = @CustomerSurname,[CustomerPasskey] = @CustomerPasskey , [CustomerTC] =  @CustomerTC ");
+                query.Append(" SET [UserName]=@UserName, [CustomerName] = @CustomerName, [CustomerSurname] = @CustomerSurname,[CustomerPasskey] = @CustomerPasskey , [CustomerTC] =  @CustomerTC ");
                 query.Append(" WHERE ");
                 query.Append(" [CustomerID] = @CustomerID ");
                 query.Append(" SELECT @intErrorCode = @@ERROR; ");
@@ -381,6 +389,7 @@ namespace Final.DataAccess.Concretes
 
                        
                         DBHelper.AddParameter(dbCommand, "@CustomerID", CsType.String, ParameterDirection.Input, entity.CustomerID);
+                        DBHelper.AddParameter(dbCommand, "@UserName", CsType.String, ParameterDirection.Input, entity.UserName);
                         DBHelper.AddParameter(dbCommand, "@CustomerName", CsType.String, ParameterDirection.Input, entity.CustomerName);
                         DBHelper.AddParameter(dbCommand, "@CustomerSurname", CsType.String, ParameterDirection.Input, entity.CustomerSurname);
                         DBHelper.AddParameter(dbCommand, "@CustomerPasskey", CsType.String, ParameterDirection.Input, entity.CustomerPasskey);

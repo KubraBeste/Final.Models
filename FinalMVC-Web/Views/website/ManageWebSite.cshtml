@@ -38,8 +38,8 @@
                 fx: 'fade',
                 pager: '#smallnav',
                 pause: 1,
-                speed: 1500,
-                timeout: 1000
+                speed: 900,
+                timeout: 900
             });
         });
     </script>
@@ -59,6 +59,8 @@
                 <li><a href="@Url.Action("ListAll" , "Sirket")">Şirketler</a></li>
                 <li><a href="@Url.Action("Create" , "Arac")">Araç Ekle</a></li>
                 <li><a href="@Url.Action("ListAll" , "Arac")">Araçlar</a></li>
+                <li><a href="@Url.Action("Create" , "Kiralama")">Kirala</a></li>
+                <li><a href="@Url.Action("Create" , "Teslim")">Teslim</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="@Url.Action("Details","Manage")">Profil</a></li>

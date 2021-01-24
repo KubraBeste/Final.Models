@@ -13,5 +13,12 @@ namespace FinalMVC_Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        
     }
 }

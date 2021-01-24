@@ -30,7 +30,7 @@ namespace Final.BusinessLogic.Concretes
             catch (Exception ex)
             {
                 LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
-                throw new Exception("BusinessLogic:CustomerBusiness::InsertCustomer::Error occured.", ex);
+                throw new Exception("BusinessLogic:AracBusiness::InsertCustomer::Error occured.", ex);
             }
         }
 

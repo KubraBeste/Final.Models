@@ -1,7 +1,6 @@
 ﻿using Final.BusinessLogic.Concretes;
 using Final.Commons.Concretes.Helpers;
 using Final.Commons.Concretes.Logger;
-using Final.DataAccess.Concretes;
 using Final.Models.Concretes;
 using System;
 using System.Collections.Generic;
@@ -16,28 +15,48 @@ namespace FinalMVC_Web.Controllers
         // GET: Kiralama
         public ActionResult Index()
         {
-            SirketRepository sirketrepository = new SirketRepository();
-            var objMultipleModels = new Tuple<IEnumerable<SelectListItem>>
-                (sirketrepository.GetAll());
-            return View(objMultipleModels);
+           
+            return View();
         }
         public ActionResult Create()
         {
-            return View();
-        }
-        public ActionResult Create(FormCollection collection)
-        {
+           
             return View();
         }
         /*
-        private Kiralama kiralama(Kiralama kiralamaid, Arac aracid, Kullanici kullaniciid )
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(FormCollection collection)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            try
+            {
+                if (InsertKiralama(int.Parse(collection["KiralayanKisi"]), int.Parse(collection["KiralananArac"])))
+                    return View();
+                return View();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        */
+        private bool InsertKiralama(int v1, int v2)
         {
             try
             {
                 using (var kiralamabusiness = new KiralamaBusiness())
                 {
-                    //return kiralamabusiness.Kiralamak(kiralamaid, aracid, kullaniciid);
-
+                    return kiralamabusiness.Kiralamak(new Kiralama()
+                    {
+                        KiralananArac = v2,
+                        KiralayanKisi = v1,
+                        
+                    });
                 }
             }
             catch (Exception)
@@ -45,8 +64,6 @@ namespace FinalMVC_Web.Controllers
 
                 throw;
             }
-            
-        }*/
-        
+        }
     }
 }

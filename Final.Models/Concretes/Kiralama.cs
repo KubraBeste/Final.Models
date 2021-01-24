@@ -30,6 +30,7 @@ namespace Final.Models.Concretes
         public int KiralananArac { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        
         public DateTime KiralamaTarih { get; set; }
         
 

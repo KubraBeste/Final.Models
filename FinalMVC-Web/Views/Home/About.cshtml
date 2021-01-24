@@ -4,5 +4,61 @@
     ViewBag.Title = "About";
 }
 
-<h2>About</h2>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style type="text/css">
+
+    #slideshow, img.bg {
+        min-height: 100%;
+        min-width: 100%;
+        height: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -9999;
+        opacity: 0.4;
+    }
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.3.min.js">
+</script>
+
+<script type="text/javascript" src="http://u.jimdo.com/www52/o/s2ba029df7f23bf1c/userlayout/js/jquery-cycle-all.js">
+</script>
+
+<script type="text/javascript">
+    var $j = jQuery.noConflict();
+    $j(document).ready(function () {
+        $j('#slideshow').cycle({
+            fx: 'fade',
+            pager: '#smallnav',
+            pause: 1,
+            speed: 800,
+            timeout: 800
+        });
+    });
+</script>
+
+
+
+<h1 style="text-align: start; color: crimson">ABOUT</h1>
+
+<div id="slideshow">
+
+    <img src="~/Images/images.jpg" class="bg" />
+
+    <img src="~/Images/medium-family-suv-kia-sportage.jpg" class="bg" />
+
+    <img src="~/Images/timthumb.jpg" class="bg" />
+
+    <img src="~/Images/2023-crossovers-and-suvs-worth-waiting-for.jpg" class="bg" />
+    <img src="~/Images/togg-suv-concept-1577634266.jpg" class="bg" />
+
+    <img src="~/Images/unnamed.jpg" class="bg" />
+
+
+
+</div>
 

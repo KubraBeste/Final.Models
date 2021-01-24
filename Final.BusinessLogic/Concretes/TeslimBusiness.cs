@@ -81,8 +81,21 @@ namespace Final.BusinessLogic.Concretes
         {
             _teslimbusiness = new TeslimBusiness();
         }
-        public bool TeslimEtmek(Teslim teslim, Arac sender, Arac reciever, Kullanici sender1, Kullanici reciever2)
+        public bool TeslimEtmek(Teslim teslim)
         {
+            AracBusiness aracBusiness = new AracBusiness();
+            Kiralama kiralama = new Kiralama();
+
+            var v1 = aracBusiness.SelectAracById(teslim.TeslimEdilenArac);
+            var v2 = v1.GünlükFiyat;
+            var v3 = kiralama.KiralananArac;
+            if (v1.ToString() == v3.ToString())
+            {
+                var v4 = kiralama.KiralamaTarih;
+                var v5 = teslim.TeslimTarihi;
+                var v6 = (v4 - v5).TotalDays;
+            }
+            
             /*
             try
             {

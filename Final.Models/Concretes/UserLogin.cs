@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Final.Models.Concretes
 {
-    public class UserLogin
+    public class UserLogin 
     {
         public void Dispose()
         {
@@ -22,10 +22,15 @@ namespace Final.Models.Concretes
 
         [Required(ErrorMessage = "You must enter an password.")]
         [StringLength(50, MinimumLength = 3)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         public bool isActive { get; set; }
 
         public string ErrorMessage { get; set; }
+
+        public virtual List<Kullanici> Kullanicis { get; set; }
+
+        
     }
 }

@@ -414,18 +414,6 @@ namespace Final.DataAccess.Concretes
             }
         }
 
-        public IEnumerable<SelectListItem> GetAll()
-        {
-            var sirket = new Sirket();
-            IEnumerable<SelectListItem> objSelectListItems = new List<SelectListItem>();
-            objSelectListItems = (from obj in sirket.SirketAdi
-                                  select new SelectListItem()
-                                  {
-                                      Text = sirket.SirketAdi,
-                                      Value = sirket.SirketID.ToString(),
-                                      Selected =true
-                                  }).ToList();
-            return objSelectListItems;
-        }
+       
     }
 }

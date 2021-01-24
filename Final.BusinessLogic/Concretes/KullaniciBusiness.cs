@@ -15,12 +15,14 @@ namespace Final.BusinessLogic.Concretes
     {
         public bool InsertKullanici(Kullanici entity)
         {
+           
             try
             {
                 bool isSuccess;
                 using (var repo = new KullaniciRepository())
                 {
                     isSuccess = repo.Insert(entity);
+                   
                 }
                 return isSuccess;
             }

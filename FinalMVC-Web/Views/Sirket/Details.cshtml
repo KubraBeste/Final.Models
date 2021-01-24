@@ -2,47 +2,55 @@
 @using System.Runtime.Remoting.Messaging
 @model Final.Models.Concretes.Sirket
 
+
 @{
     Layout = null;
     ViewBag.Title = "Details";
 }
 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style type="text/css"></style>
+
 <h2>Details</h2>
 
 <div>
-<h4>Sirket</h4>
-<hr />
-<dl class="dl-horizontal">
-    <dt>
-        @Html.DisplayNameFor(model => model.SirketAdi)
-    </dt>
+    <h4>Sirket</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SirketAdi)
+        </dt>
 
-    <dd>
-        @Html.DisplayFor(model => model.SirketAdi)
-    </dd>
+        <dd>
+            @Html.DisplayFor(model => model.SirketAdi)
+        </dd>
 
-    <dt>
-        @Html.DisplayNameFor(model => model.SirketAdres)
-    </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.SirketAdres)
+        </dt>
 
-    <dd>
-        @Html.DisplayFor(model => model.SirketAdres)
-    </dd>
-    <dt>
-        @Html.DisplayNameFor(model => model.AracSayisi)
-    </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SirketAdres)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AracSayisi)
+        </dt>
 
-    <dd>
-        @Html.DisplayFor(model => model.AracSayisi)
-    </dd>
-    <dt>
-        @Html.DisplayNameFor(model => model.SirketPuani)
-    </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AracSayisi)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SirketPuani)
+        </dt>
 
-    <dd>
-        @Html.DisplayFor(model => model.SirketPuani)
-    </dd>
-</dl>
+        <dd>
+            @Html.DisplayFor(model => model.SirketPuani)
+        </dd>
+    </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.SirketID }) |

@@ -1,4 +1,5 @@
-﻿using Final.Models.Concretes;
+﻿using Final.BusinessLogic.Concretes;
+using Final.Models.Concretes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,38 +16,39 @@ namespace FinalMVC_Web.Controllers
         {
             return View();
         }
-
-        [AllowAnonymous]
         public ActionResult UserLogin()
         {
             return View();
-
         }
-
+        
+       
         [AllowAnonymous]
         public ActionResult ManagerLogin()
         {
             return View();
         }
         [HttpPost]
-
-        public ActionResult Autherize(Final.Models.Concretes.Kullanici userLogin)
+        [ValidateAntiForgeryToken]
+        public ActionResult Auth( Kullanici kullanici)
         {
+            var username = kullanici.UserName;
+            var password = kullanici.CustomerPasskey;
+            
 
-            var username = userLogin.CustomerName;
-            var password = userLogin.CustomerPasskey;
-            if(username == null || password == null)
+            if (username == null || password == null)
             {
-                userLogin.ErrorMessage = "Wrong username or password";
-                return View("UserLogin",userLogin);
+
+                kullanici.ErrorMessage = "Wrong username or password";
+                return View("UserLogin","Login");
             }
             else
             {
-                Session["CustomerID"] = userLogin.CustomerID;
-                return RedirectToAction("UserWebSite", "website");
+                
+                Session["CustomerID"] = kullanici.CustomerID;
+                return RedirectToAction("UserWebSite", "website" );
             }
             
-
+            
         }
 
         [HttpPost]
@@ -64,13 +66,14 @@ namespace FinalMVC_Web.Controllers
             else
             {
                 Session["ManagerID"] = manager.ManagerID;
-                return RedirectToAction("ManageWebSite", "website");
+                
+                return RedirectToAction("ManageWebSite", "website" );
             }
 
 
         }
        
-
+        
 
 
     }

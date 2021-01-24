@@ -83,21 +83,25 @@ namespace Final.BusinessLogic.Concretes
             _customerbusiness = new KullaniciBusiness();
             _aracbusiness = new AracBusiness();
         }
-        public bool Kiralamak(Kiralama kiralama,Arac aracid , Kullanici kullaniciid)
+        public bool Kiralamak(Kiralama kiralama )
         {
 
+            Kullanici kullanici = new Kullanici();
+            Arac arac = new Arac();
             try
             {
                 bool isSuccess = false;
                 kiralama.isSuccess = false;
-                if (aracid.Uygunluk == true)
-                {
+               
+                    
                     lock (_lock)
-                        aracid.Uygunluk = false;
+                        kiralama.KiralananArac = arac.AracID;
                     lock (_lock)
-                        kiralama.KiralananArac = aracid.AracID;
+                        kiralama.KiralayanKisi = kullanici.CustomerID;
                     lock (_lock)
-                        kiralama.KiralayanKisi = kullaniciid.CustomerID;
+                        kiralama.KiralamaTarih = kiralama.KiralamaTarih.Date;
+                        
+                    
                     isSuccess = InsertKiralama(kiralama);
                     if(isSuccess != kiralama.isSuccess)
                     {
@@ -106,13 +110,13 @@ namespace Final.BusinessLogic.Concretes
                         if (UpdateKiralamaInfo(kiralama))
                         {
                             lock (_lock)
-                                _customerbusiness.UpdateCustomer(kullaniciid);
+                                _customerbusiness.UpdateCustomer(kullanici);
                             lock (_lock)
-                                _aracbusiness.UpdateArac(aracid);
+                                _aracbusiness.UpdateArac(arac);
                                 
                         }
                     }
-                }
+                
                 return isSuccess;
             }
             catch (Exception ex)

@@ -1,4 +1,4 @@
-﻿@model Tuple<IEnumerable<SelectListItem>>
+﻿@model Final.Models.Concretes.Kiralama
 
 @{ 
     Layout = null;
@@ -14,8 +14,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    Sirket:
-                    @Html.DropDownList("Sirket" , new SelectList(Model.Item1 , dataValueField:"Value",dataTextField:"Text"), htmlAttributes: new { @class= "form-control"})
+                    
                 </div>
             </div>
         </div>

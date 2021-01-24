@@ -15,7 +15,7 @@ namespace FinalMVC_Web.Controllers
     public class CustomerController : Controller
     {
         // GET: Customer
-
+        [Authorize]
         public ActionResult Index()
         {
             return View();
@@ -31,6 +31,7 @@ namespace FinalMVC_Web.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(FormCollection collection)
@@ -41,8 +42,10 @@ namespace FinalMVC_Web.Controllers
             }
             try
             {
-                if (InsertCustomer(collection["CustomerName"], collection["CustomerSurname"], collection["CustomerPasskey"], int.Parse(collection["CustomerTC"])))
-                    return RedirectToAction("Index" ,"Home");
+                if (InsertCustomer(collection["UserName"], collection["CustomerName"], collection["CustomerSurname"], collection["CustomerPasskey"], int.Parse(collection["CustomerTC"])))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
 
                 return View();
             }
@@ -67,14 +70,17 @@ namespace FinalMVC_Web.Controllers
         }
         public ActionResult Edit(int id, FormCollection collection)
         {
+            
             if (!ModelState.IsValid)
             {
                 return View();
             }
             try
             {
-                if (UpdateCustomer(id, collection["CustomerName"], collection["CustomerSurname"], collection["CustomerPasskey"], int.Parse(collection["CustomerTC"])))
+                if (UpdateCustomer(id, collection["UserName"], collection["CustomerName"], collection["CustomerSurname"], collection["CustomerPasskey"], int.Parse(collection["CustomerTC"])))
+                
                     return RedirectToAction("Index");
+                
                 return View();
             }
             catch (Exception)
@@ -145,7 +151,7 @@ namespace FinalMVC_Web.Controllers
             }
         }
 
-        private bool UpdateCustomer(int id, string name, string surname, string password, int tc)
+        private bool UpdateCustomer(int id, string username,string name, string surname, string password, int tc)
         {
             try
             {
@@ -154,6 +160,7 @@ namespace FinalMVC_Web.Controllers
                     return customerBusiness.UpdateCustomer(new Kullanici()
                     {
                         CustomerID = id,
+                        UserName=username,
                         CustomerName = name,
                         CustomerPasskey = password,
                         CustomerTC = tc
@@ -170,7 +177,7 @@ namespace FinalMVC_Web.Controllers
         }
         
 
-        private bool InsertCustomer(string name, string surname, string password, int tc)
+        private bool InsertCustomer(string username,string name, string surname, string password, int tc)
         {
             try
             {
@@ -178,6 +185,7 @@ namespace FinalMVC_Web.Controllers
                 {
                     return customerBusiness.InsertKullanici(new Kullanici()
                     {
+                        UserName =username,
                         CustomerName = name,
                         CustomerSurname = surname,
                         CustomerPasskey = password,

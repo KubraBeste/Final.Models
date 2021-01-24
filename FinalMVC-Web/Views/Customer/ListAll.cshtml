@@ -4,13 +4,22 @@
     ViewBag.Title = "ListAll";
 }
 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style type="text/css"></style>
+
+
 <h2>ListAll</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
     <tr>
+        <th>
+            @Html.Encode("User Name")
+        </th>
         <th>
             @Html.Encode("Customer Name")
         </th>
@@ -28,6 +37,9 @@
     {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.CustomerName)
             </td>
             <td>
@@ -36,7 +48,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerTC)
             </td>
-            
+
             <td>
                 @Html.ActionLink("Detail", "Details", new { id = item.CustomerID }) |
                 @Html.ActionLink("Edit", "Edit", new { id = item.CustomerID }) |
